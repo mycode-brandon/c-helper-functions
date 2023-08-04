@@ -1,7 +1,4 @@
-/*
- * Simple program that shows the use of function pointers.
- */
-
+// Online C compiler to run C program online
 #include <stdio.h>
 
 float add(float x, float y) {
@@ -24,6 +21,7 @@ float (*select_operation())(float, float) {
     printf("2. Subtract \n");
     printf("3. Multiply \n");
     printf("4. Divide \n");
+    printf("Enter Selection: ");
     scanf("%d", &operation_selection);
     
     switch(operation_selection) {
@@ -38,7 +36,15 @@ float (*select_operation())(float, float) {
 int main() {
     
     float (*operation)(float, float) = select_operation();
-    printf("result: %f", operation(20,5));
+    printf("Result of x=20 and y=5: %0.2f \n", operation(20,5));
+    
+    float (*operation_array[])(float, float) = {add, subtract, multiply, divide};
+    float product = (*operation_array[2])(20, 5);
+    printf("\nUsing an array of function pointers instead:\n");
+    printf("operation_array[0]: %0.2f\n", (*operation_array[0])(20, 5));
+    printf("operation_array[1]: %0.2f\n", (*operation_array[1])(20, 5));
+    printf("operation_array[2]: %0.2f\n", (*operation_array[2])(20, 5));
+    printf("operation_array[3]: %0.2f\n", (*operation_array[3])(20, 5));
     
     printf("\nComplete!\n");
     return 0;
