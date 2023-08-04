@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-void charToBinary(char *array, char number) {
+void charToBinaryArray(char *array, char number) {
     int size_of_array;
     size_of_array = sizeof(array)/sizeof(array[0]);
     
@@ -25,7 +25,7 @@ void charToBinary(char *array, char number) {
 int main() {
     char array[8];
     int number = 127;
-    charToBinary(array, number);
+    charToBinaryArray(array, number);
     
     printf("Binary of the number %d is ", number);
     for (int i = 0; i < (sizeof(array)/sizeof(array[i])); ++i) {
