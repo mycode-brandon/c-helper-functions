@@ -13,6 +13,7 @@ void charToBinaryArray(char *array, char number) {
         array[i] = '0';
     }
     
+    // add '1's for each matching bit of the left-most bit and then shift to the left to check the next one
     for (int i = 0; number ; ++i) {
         if (number & 128) {
             array[i] = '1';
