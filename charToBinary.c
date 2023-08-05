@@ -5,12 +5,11 @@
 
 #include <stdio.h>
 
+#define SIZE_OF_ARRAY 8
+
 void charToBinaryArray(char *array, char number) {
-    int size_of_array;
-    size_of_array = sizeof(array)/sizeof(array[0]);
-    
     // initialize all elements to '0' first
-    for (int i = 0; i < size_of_array; ++i) {
+    for (int i = 0; i < SIZE_OF_ARRAY; ++i) {
         array[i] = '0';
     }
     
@@ -23,12 +22,12 @@ void charToBinaryArray(char *array, char number) {
 }
 
 int main() {
-    char array[8];
+    char array[SIZE_OF_ARRAY];
     int number = 127;
     charToBinaryArray(array, number);
     
     printf("Binary of the number %d is ", number);
-    for (int i = 0; i < (sizeof(array)/sizeof(array[i])); ++i) {
+    for (int i = 0; i < SIZE_OF_ARRAY; ++i) {
         printf("%c", array[i]);
     }
     printf("\n");
