@@ -1,3 +1,7 @@
+// reverseString.c
+// Author: Brandon Morgan
+// Simple function that revereses a string
+
 #include <stdio.h>
 
 void fn_reverse_string(char *string_array, int size_of_array) {
