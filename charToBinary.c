@@ -1,7 +1,7 @@
-/*
- * Converts a 'char' to a 'char[]' in binary format. Utilizes pointer parameter to take input array from caller scope.
- * The function can cast an int to char and will generally preserve the last 8 bytes if the int is bigger than 255. e.g., 257 will return 0000 0001 (256 + 1 or 0000 0001 0000 0001)
- */
+// File: charToBinary.c
+// Author: Brandon Morgan
+// Description: Converts a 'char' to a 'char[]' in binary format. Utilizes pointer parameter to take input array from caller scope.
+// The function can cast an int to char and will generally preserve the last 8 bytes if the int is bigger than 255. e.g., 257 will return 0000 0001 (256 + 1 or 0000 0001 0000 0001)
 
 #include <stdio.h>
 
