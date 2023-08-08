@@ -1,4 +1,5 @@
-// Online C compiler to run C program online
+// Example use of function pointers
+
 #include <stdio.h>
 
 float add(float x, float y) {
