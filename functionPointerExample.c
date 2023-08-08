@@ -1,3 +1,5 @@
+// functionPointersExample.c
+// Author: Brandon Morgan
 // Example use of function pointers
 
 #include <stdio.h>
