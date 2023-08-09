@@ -1,4 +1,4 @@
-// File: linkedList.c
+// File: singleLinkedList.c
 // Author: Brandon Morgan
 // Description: A simple implementation of a linked list 
 
@@ -14,6 +14,7 @@ int main() {
     
     struct list_node *tail = NULL;
     struct list_node *head = NULL;
+    struct list_node *current = NULL;
     
     char multi_line_string[5][100] = {
         "Hello!",
@@ -23,9 +24,7 @@ int main() {
         "This is the fifth and final line!"
     };
     
-    // Creating the linked list
     printf("Creating the linked list...\n");
-    
     for (int i = 0; i < 5; ++i) {
         char *line = (char *) malloc(strlen(multi_line_string[i]+1));
         strcpy(line, multi_line_string[i]);
@@ -51,10 +50,12 @@ int main() {
     printf("tail list_node.next = %p\n", tail->next);
         
     printf("head list_node.text = %s\n", head->text);
-    printf("head list_node.next = %p\n", head->next);
+    printf("head list_node.next = %p\n\n", head->next);
     
-    for (int i = 0; i < 5; ++i) {
-        
+    printf("Looping through the linked list...\n");
+    for (current = head; current != NULL; current = current->next) {
+        printf("Current node: %s\n", current->text);
+        printf("\tNext node location: %p\n", current->next);
     }
 
     return 0;
