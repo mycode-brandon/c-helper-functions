@@ -21,9 +21,9 @@ struct List {
 
 struct List *List_new() {
     struct List *this_list = malloc(sizeof(this_list));
-    this_list->head == NULL;
-    this_list->tail == NULL;
-    this_list->length == 0;
+    this_list->head = NULL;
+    this_list->tail = NULL;
+    this_list->length = 0;
     return this_list;
 }
 
@@ -62,10 +62,10 @@ void List_append(struct List *this_list, char *text) {
 void List_remove_byindex(struct List *this_list, int index) {
     int i = 0;
     for (struct ListNode *current_node = this_list->head; current_node != NULL; current_node = current_node->next) {
-    if (i == index) {
+        if (i == index) {
             struct ListNode *prev = current_node->prev;
             struct ListNode *next = current_node->next;
-            
+
             if (current_node == this_list->tail) {
                 this_list->tail = prev;
                 prev->next = NULL;
@@ -78,7 +78,7 @@ void List_remove_byindex(struct List *this_list, int index) {
                 prev->next = next;
                 next->prev = prev;
             }
-            
+
             free(current_node->text);
             free(current_node);
         }
