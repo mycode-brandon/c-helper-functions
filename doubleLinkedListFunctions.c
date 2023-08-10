@@ -81,6 +81,7 @@ void List_remove_byindex(struct List *this_list, int index) {
 
             free(current_node->text);
             free(current_node);
+            break;
         }
         ++i;
     }
@@ -123,7 +124,7 @@ int main() {
     printf("\n");
     
     printf("\nremoving an element from the list...\n");
-    List_remove_byindex(my_list, 0);
+    List_remove_byindex(my_list, 4);
     List_print(my_list);
     printf("length of list: %d\n", my_list->length);
     
