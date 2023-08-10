@@ -1,6 +1,6 @@
-// reverseString.c
+// File: reverseString.c
 // Author: Brandon Morgan
-// Simple function that revereses a string
+// Description: Simple function that revereses a string
 
 #include <stdio.h>
 
