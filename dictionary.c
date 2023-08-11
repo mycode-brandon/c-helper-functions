@@ -8,7 +8,7 @@
 
 struct DictNode {
     char *key;
-    char *value;
+    char *val;
     struct DictNode *next;
 };
 
@@ -23,6 +23,29 @@ struct Dict *Dict_new() {
     this_dict->head = NULL;
     this_dict->tail = NULL;
     this_dict->length = 0;
+}
+
+void Dict_put(struct Dict *this_dict, char *key, char *val) {
+    struct DictNode *new_node = (struct DictNode *) malloc(sizeof(*new_node));
+    
+    char *this_key = (char *) malloc(sizeof(key)+1);
+    char *this_val = (char *) malloc(sizeof(val)+1);
+    strcpy(this_key, key);
+    strcpy(this_val, val);
+    new_node->key = this_key;
+    new_node->val = this_val;
+    new_node->next = NULL;
+    
+    if (this_dict->tail != NULL) {
+        this_dict->tail->next = new_node;
+    }
+    this_dict->tail = new_node;
+    if (this_dict->head == NULL) {
+        this_dict->head = new_node;
+    }
+    
+    
+    this_dict->length+=1;
 }
 
 int main() {
@@ -46,24 +69,29 @@ int main() {
         "val4",
         "val5"
     };
-    
+    /*
     new_node->key = keys[0];
-    new_node->value = values[0];
+    new_node->val = values[0];
     
     my_dict->head = new_node;
     my_dict->tail = new_node;
     
     struct DictNode *new_node2 = (struct DictNode *) malloc(sizeof(*new_node));
     new_node2->key = keys[1];
-    new_node2->value = values[1];
+    new_node2->val = values[1];
     my_dict->tail->next = new_node2;
-    my_dict->tail = new_node2;
+    my_dict->tail = new_node2; */
+    
+    for (int i = 0; i < 5; i++) {
+        Dict_put(my_dict, keys[i], values[i]);
+    }
+    
     
     printf("my_dict->head = %p\n", my_dict->head);
     printf("my_dict->tail = %p\n", my_dict->tail);
     for (struct DictNode *current = my_dict->head; current != NULL; current = current->next) {
         printf("%s\n", current->key);
-        printf("%s\n", current->value);
+        printf("%s\n", current->val);
         printf("%p\n", current);
     }
     
