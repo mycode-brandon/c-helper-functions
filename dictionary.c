@@ -19,16 +19,15 @@ struct Dict {
 };
 
 struct Dict *Dict_new() {
-    struct Dict *this_dict = (struct Dict *) malloc(sizeof(this_dict)); //sizeof with * or not?
-    printf("sizeof(*this_dict) = %d\n", sizeof(*this_dict));
-    printf("sizeof(this_dict) = %d\n", sizeof(this_dict));
+    struct Dict *this_dict = (struct Dict *) malloc(sizeof(*this_dict));
+
     this_dict->head = NULL;
     this_dict->tail = NULL;
     this_dict->length = 0;
 }
 
 void Dict_put(struct Dict *this_dict, char *key, char *val) {
-    struct DictNode *new_node = (struct DictNode *) malloc(sizeof(*new_node)); //sizeof with * or not?
+    struct DictNode *new_node = (struct DictNode *) malloc(sizeof(*new_node));
     
     char *this_key = (char *) malloc(sizeof(key)+1);
     char *this_val = (char *) malloc(sizeof(val)+1);
@@ -50,10 +49,10 @@ void Dict_put(struct Dict *this_dict, char *key, char *val) {
 
 
 void Dict_del(struct Dict *this_dict) {
-    struct DictNode *current, *next;
+    struct DictNode *current;
     current = this_dict->head;
     while(current) {
-        next = current->next;
+        struct DictNode *next = current->next;
         free(current->key);
         free(current->val);
         free(current);
