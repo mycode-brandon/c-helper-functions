@@ -21,7 +21,7 @@ struct Dict {
     
     //Public Methods
     void (*put)(struct Dict *self, char *key, int value);
-    int  (*get)(struct Dict *self, char *key, int value);
+    int  (*get)(struct Dict *self, char *key);
     void (*pop)(struct Dict *self, char *key);
     int  (*length)(struct Dict *self);
     void (*dump)(struct Dict *self);
@@ -31,36 +31,71 @@ struct Dict {
 
 //Put
 void __Dict_put(struct Dict *self, char *key, int value) {
-    struct DictNode *new_node = (struct DictNode *) malloc(sizeof(*new_node));
     
     char *this_key   = (char *) malloc(sizeof(key)+1);
     int  this_value = value;
     
     strcpy(this_key, key);
     
-    new_node->key    = this_key;
-    new_node->value  = this_value;
-    new_node->__prev = self->__tail;
-    new_node->__next = NULL;
     
-    if (self->__tail != NULL) {
-        self->__tail->__next = new_node;
+    int key_exists = 0;
+    for (struct DictNode *test = self->__head; test != NULL; test = test->__next) {
+        char *test_key = (char *) malloc(sizeof(test->key)+1);
+        strcpy(test_key, test->key);
+        if (strcmp(test_key, this_key) == 0) {
+            test->value = this_value;
+            key_exists = 1;
+            free(test_key);
+            break;
+        }
     }
-    self->__tail = new_node;
     
-    //Only first function call for each Dict
-    if (self->__head == NULL) {
-        self->__head = new_node;
+    if (key_exists == 0) {
+        struct DictNode *new_node = (struct DictNode *) malloc(sizeof(*new_node));
+        
+        new_node->key    = this_key;
+        new_node->value  = this_value;
+        new_node->__prev = self->__tail;
+        new_node->__next = NULL;
+        
+        if (self->__tail != NULL) {
+            self->__tail->__next = new_node;
+        }
+        self->__tail = new_node;
+        
+        //Only first function call for each Dict
+        if (self->__head == NULL) {
+            self->__head = new_node;
+        }
+    
+        //Increase Length
+        self->__length += 1;
     }
-
-    //Increase Length
-    self->__length += 1;
 }
 
 
 //Get
-int __Dict_get(struct Dict *self, char *key, int value) {
-    ;
+int __Dict_get(struct Dict *self, char *key) {
+    char *this_key = (char *) malloc(sizeof(key)+1);
+    strcpy(this_key, key);
+    
+    int key_exists = 0;
+    int value;
+    for (struct DictNode *current = self->__head; current != NULL; current = current->__next) {
+        char *test_key = (char *) malloc(sizeof(current->key)+1);
+        strcpy(test_key, current->key);
+        if (strcmp(test_key, this_key) == 0) {
+            key_exists = 1;
+            value = current->value;
+            free(test_key);
+            break;
+        }
+    }
+    if (key_exists == 0) {
+        return 0;
+    } else {
+        return value;
+    }
 }
 
 
@@ -140,7 +175,12 @@ int main()
     my_dict->put(my_dict, "key3", 45);
     my_dict->dump(my_dict);
     
-    my_dict->dump(my_dict);
+    printf("get my_dict['key6'] = %d\n",my_dict->get(my_dict, "key6"));
+    printf("get my_dict['key1'] = %d\n",my_dict->get(my_dict, "key1"));
+    printf("get my_dict['key2'] = %d\n",my_dict->get(my_dict, "key2"));
+    printf("get my_dict['key3'] = %d\n",my_dict->get(my_dict, "key3"));
+    
+
     printf("Length=%d\n", my_dict->length(my_dict));
     
     my_dict->delete(my_dict);
