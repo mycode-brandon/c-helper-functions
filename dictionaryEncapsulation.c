@@ -9,7 +9,7 @@ struct DictNode {
     
     //Public Values
     char *key;
-    int *value;
+    int value;
 };
 
 
@@ -39,7 +39,7 @@ void __Dict_put(struct Dict *self, char *key, int value) {
     strcpy(this_key, key);
     
     new_node->key    = this_key;
-    new_node->value  = &this_value;
+    new_node->value  = this_value;
     new_node->__prev = self->__tail;
     new_node->__next = NULL;
     
@@ -72,7 +72,7 @@ int __Dict_pop(struct Dict *self, char *key) {
 
 //Length
 int __Dict_length(struct Dict *self) {
-    ;
+    return self->__length;
 }
 
 
@@ -82,9 +82,9 @@ void __Dict_dump(struct Dict *self) {
     printf("Dictionary(length=%d, [", self->__length);
     for (current = self->__head; current != NULL; current = current->__next) {
         if (current->__next != NULL) {
-            printf("%s=%d, ", current->key, *current->value);
+            printf("%s=%d, ", current->key, current->value);
         } else {
-            printf("%s=%d", current->key, *current->value);
+            printf("%s=%d", current->key, current->value);
         }
     }
     printf("])\n");
@@ -118,7 +118,6 @@ struct Dict *Dict_new(){
     
     new_Dict->put    = &__Dict_put;
     new_Dict->get    = &__Dict_get;
-    new_dict->pop    = &__Dict_pop;
     new_Dict->length = &__Dict_length;
     new_Dict->dump   = &__Dict_dump;
     new_Dict->delete = &__Dict_delete;
@@ -133,11 +132,16 @@ int main()
     struct Dict *my_dict = Dict_new();
     
     my_dict->put(my_dict, "key1", 42);
-    my_dict->put(my_dict, "key1", 42);
-    my_dict->put(my_dict, "key1", 42);
-    my_dict->put(my_dict, "key1", 42);
+    my_dict->dump(my_dict);
+    my_dict->put(my_dict, "key1", 43);
+    my_dict->dump(my_dict);
+    my_dict->put(my_dict, "key2", 44);
+    my_dict->dump(my_dict);
+    my_dict->put(my_dict, "key3", 45);
+    my_dict->dump(my_dict);
     
     my_dict->dump(my_dict);
+    printf("Length=%d\n", my_dict->length(my_dict));
     
     my_dict->delete(my_dict);
 
