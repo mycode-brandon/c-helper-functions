@@ -22,6 +22,7 @@ struct Dict {
     //Public Methods
     void (*put)(struct Dict *self, char *key, int value);
     int  (*get)(struct Dict *self, char *key, int value);
+    void (*pop)(struct Dict *self, char *key);
     int  (*length)(struct Dict *self);
     void (*dump)(struct Dict *self);
     void (*delete)(struct Dict *self);
@@ -59,6 +60,12 @@ void __Dict_put(struct Dict *self, char *key, int value) {
 
 //Get
 int __Dict_get(struct Dict *self, char *key, int value) {
+    ;
+}
+
+
+//Pop
+int __Dict_pop(struct Dict *self, char *key) {
     ;
 }
 
@@ -111,6 +118,7 @@ struct Dict *Dict_new(){
     
     new_Dict->put    = &__Dict_put;
     new_Dict->get    = &__Dict_get;
+    new_dict->pop    = &__Dict_pop;
     new_Dict->length = &__Dict_length;
     new_Dict->dump   = &__Dict_dump;
     new_Dict->delete = &__Dict_delete;
