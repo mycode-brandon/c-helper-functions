@@ -1,3 +1,8 @@
+// File: dictionaryEncapsulation.c
+// Author: Brandon Morgan
+// Description: A dictionary class implementation using a doubly linked list, function pointers as methods, and naming conventions to make things "private". Explores encapsulation methodology in a non OOP language.
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
