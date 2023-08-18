@@ -36,22 +36,10 @@ struct Dict {
 
 //Put
 void __Dict_put(struct Dict *self, char *key, int value) {
-    
-    char *this_key   = (char *) malloc(sizeof(key)+1);
-    int  this_value = value;
-    
-    strcpy(this_key, key);
-    
-    
     int key_exists = 0;
-    for (struct DictNode *test = self->__head; test != NULL; test = test->__next) {
-        char *test_key = (char *) malloc(sizeof(test->key)+1);
-        strcpy(test_key, test->key);
-        if (strcmp(test_key, this_key) == 0) {
-            test->value = this_value;
+    for (struct DictNode *current = self->__head; current != NULL; current = current->__next) {
+        if (strcmp(current->key, key) == 0) {
             key_exists = 1;
-            free(test_key);
-            free(this_key);
             break;
         }
     }
@@ -59,8 +47,8 @@ void __Dict_put(struct Dict *self, char *key, int value) {
     if (key_exists == 0) {
         struct DictNode *new_node = (struct DictNode *) malloc(sizeof(*new_node));
         
-        new_node->key    = this_key;
-        new_node->value  = this_value;
+        new_node->key    = key;
+        new_node->value  = value;
         new_node->__prev = self->__tail;
         new_node->__next = NULL;
         
@@ -82,18 +70,12 @@ void __Dict_put(struct Dict *self, char *key, int value) {
 
 //Get
 int __Dict_get(struct Dict *self, char *key) {
-    char *this_key = (char *) malloc(sizeof(key)+1);
-    strcpy(this_key, key);
-    
     int key_exists = 0;
     int value;
     for (struct DictNode *current = self->__head; current != NULL; current = current->__next) {
-        char *test_key = (char *) malloc(sizeof(current->key)+1);
-        strcpy(test_key, current->key);
-        if (strcmp(test_key, this_key) == 0) {
+        if (strcmp(current->key, key) == 0) {
             key_exists = 1;
             value = current->value;
-            free(test_key);
             break;
         }
     }
