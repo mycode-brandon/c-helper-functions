@@ -19,16 +19,29 @@ float rand_float(void) {
 }
 
 
-int main() {
-    srand(69);
-    // y = x*w;
-    float w = rand_float() * 1000.0f;
-
-    for (int i = 0; 9 < TRAIN_COUNT; i++) {
+float cost(float w) {
+    float result = 0.0f;
+    
+    for (size_t i = 0; i < TRAIN_COUNT; i++) {
         float x = train[i][0];
         float y = x*w;
-        printf("actual: %f, expected: %f\n", y, train[i][0]*2);
+        float d = y - train[i][1];
+        result += d*d;
+        //printf("actual: %f, expected: %f\n", y, train[i][1]);
     }
+    result /= TRAIN_COUNT;
+    return result;
+}
+
+
+int main() {
+    //printf("%lld", TRAIN_COUNT);
+    srand(69);
+    // y = x*w;
+    float w = rand_float() * 10.0f;
+    float result = cost(w);
+    printf("%f\n", result);
+
 
     return 0;
 }
