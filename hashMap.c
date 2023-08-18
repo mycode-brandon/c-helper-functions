@@ -31,20 +31,22 @@ struct HashMap {
 
 
 int __HashMap_hash(char *key) {
-    int bucket;
-    int hash;
-    printf("%s\n", key);
-    for (char c = *key; c !='\0'; c = *++key) {
-        hash += c;
-        printf("%c\n", c);
-    }
-    printf("%d\n", hash);
+    //printf("key = %s\n", key);
+    int bucket = 0;
+    int hash = 0;
     
+    //Hash function: add int value of char multiplied by 3
+    for (char c = *key; c !='\0'; c = *++key) {
+        hash += c*3;
+        //printf("%c, %d \n", c, ((int) c)*3);
+    }
+    
+    bucket = hash % MAX_BUCKETS;
+    //printf("Hash = %d\n", hash);
+    //printf("Bucket = %d\n", bucket);
     // hash function
     // modulo
     
-    
-    bucket = 0;
     return bucket;
 }
 
