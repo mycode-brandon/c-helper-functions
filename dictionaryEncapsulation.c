@@ -51,6 +51,7 @@ void __Dict_put(struct Dict *self, char *key, int value) {
             test->value = this_value;
             key_exists = 1;
             free(test_key);
+            free(this_key);
             break;
         }
     }
