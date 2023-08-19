@@ -25,6 +25,7 @@ struct HashMap {
     
     //Private Methods
     void (*put)(struct HashMap *this_hashmap, char *key, int value);
+    void (*dump)(struct HashMap *this_hashmap);
 };
 
 
@@ -42,8 +43,8 @@ int __HashMap_hash(char *key) {
     }
     
     bucket = hash % MAX_BUCKETS;
-    //printf("Hash = %d\n", hash);
-    //printf("Bucket = %d\n", bucket);
+    printf("Hash = %d\n", hash);
+    printf("Bucket = %d\n", bucket);
     // hash function
     // modulo
     
@@ -53,6 +54,7 @@ int __HashMap_hash(char *key) {
 
 void __HashMap_put(struct HashMap *this_hashmap, char *key, int value) {
     //check if key exists
+    printf("test\n");
     int key_exists = 0;
     for (int i = 0; i < MAX_BUCKETS; ++i) {
         for (struct BucketNode *current = this_hashmap->__heads[i]; current != NULL; current = current->__next) {
@@ -65,7 +67,7 @@ void __HashMap_put(struct HashMap *this_hashmap, char *key, int value) {
     if (key_exists == 0) {
         int bucket = __HashMap_hash(key);
         char *this_key = malloc(sizeof(key));
-        strcpy(this_key, key);
+        strcpy_s(this_key, sizeof(this_key), key);
         struct BucketNode *new_BucketNode = (struct BucketNode *) malloc(sizeof(*new_BucketNode));
         
         new_BucketNode->__prev = this_hashmap->__tails[bucket];
@@ -107,52 +109,10 @@ struct HashMap *HashMap_new() {
     
     //Assign internal Methods
     new_HashMap->put = &__HashMap_put;
+    new_HashMap->dump = &__HashMap_dump;
+
+    return new_HashMap;
 }
-
-
-/*
-//Put
-void __Dict_put(struct Dict *self, char *key, int value) {
-    ;
-}
-
-
-//Get
-int __Dict_get(struct Dict *self, char *key) {
-    ;
-}
-
-
-//Pop
-int __Dict_pop(struct Dict *self, char *key) {
-    ;
-}
-
-
-//Length
-int __Dict_length(struct Dict *self) {
-    return self->__length;
-}
-
-
-//Dump
-void __Dict_dump(struct Dict *self) {
-    ;
-}
-
-
-//Destructor
-void __Dict_delete(struct Dict *self) {
-    ;
-}
-
-
-//Constructor
-struct Dict *Dict_new(){
-    ;
-}
-*/
-
 
 int main()
 {
@@ -162,6 +122,8 @@ int main()
     my_hashmap->put(my_hashmap, "key1", 2);
     my_hashmap->put(my_hashmap, "key2", 42);
     my_hashmap->put(my_hashmap, "key3", 54);
+
+    my_hashmap->dump(my_hashmap);
 
     return 0;
 }
