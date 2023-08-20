@@ -5,7 +5,6 @@
 
 #define MAX_BUCKETS 8
 
-//comment
 struct BucketNode {
     //Private Values
     struct BucketNode *__prev;
