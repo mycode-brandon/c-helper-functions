@@ -5,7 +5,6 @@
 
 #define MAX_BUCKETS 8
 
-//comment
 struct BucketNode {
     //Private Values
     struct BucketNode *__prev;
@@ -67,7 +66,7 @@ void __HashMap_put(struct HashMap *this_hashmap, char *key, int value) {
     if (key_exists == 0) {
         int bucket = __HashMap_hash(key);
         char *this_key = malloc(sizeof(key));
-        strcpy_s(this_key, sizeof(this_key), key);
+        strcpy(this_key, key);
         struct BucketNode *new_BucketNode = (struct BucketNode *) malloc(sizeof(*new_BucketNode));
         
         new_BucketNode->__prev = this_hashmap->__tails[bucket];
@@ -110,6 +109,7 @@ struct HashMap *HashMap_new() {
     //Assign internal Methods
     new_HashMap->put = &__HashMap_put;
     new_HashMap->dump = &__HashMap_dump;
+    printf("%p", &__HashMap_dump);
 
     return new_HashMap;
 }
