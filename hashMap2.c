@@ -24,7 +24,30 @@ struct HashMap {
     //Public Methods
     void (*put)(struct HashMap *this_hashmap, char *key, int value);
     void (*dump)(struct HashMap *this_hashmap);
+    int (*get)(struct HashMap *this_hashmap, char *key);
+    int (*hash)(char *key);
 };
+
+int __HashMap_hash(char *key) {
+    int hash = 0;
+    for (char c = *key; c != '\0'; c = *++key) {
+        //printf("%c\n", c);
+        hash += c*3;
+    }
+    return hash % MAX_BUCKETS;
+}
+
+int __HashMap_get(struct HashMap *this, char *key) {
+    for (int i = 0; i < MAX_BUCKETS; ++i) {
+        for (struct BucketNode *current = this->__heads[i]; current != NULL; current = current->__next) {
+            if (strcmp(current->__key, key) == 0) {
+                //printf("current->__key: %s, key: %s\n", current->__key, key);
+                return current->__value;
+            }
+        }
+    }
+    return -1;
+}
 
 void __HashMap_put(struct HashMap *this, char *key, int value) {
     int key_exists = 0;
@@ -39,7 +62,7 @@ void __HashMap_put(struct HashMap *this, char *key, int value) {
     }
 
     if (key_exists == 0) {
-        int bucket = 1;
+        int bucket = this->hash(key);
         char *this_key = malloc(sizeof(key));
         strcpy(this_key, key);
         struct BucketNode *new_node = (struct BucketNode *) malloc(sizeof(*new_node));
@@ -64,12 +87,14 @@ void __HashMap_put(struct HashMap *this, char *key, int value) {
 
 void __HashMap_dump(struct HashMap *this) {
     printf("(length=%d, [", this->__length);
+    int iter = 0;
     for (int i = 0; i < MAX_BUCKETS; ++i) {
         for (struct BucketNode *current = this->__heads[i]; current != NULL; current = current->__next) {
-            if (current->__next != NULL) {
-                printf("\"%s\" : %d, ", current->__key, current->__value);
-            } else {
+            iter+=1;
+            if (iter == this->__length) {
                 printf("\"%s\" : %d", current->__key, current->__value);
+            } else {
+                printf("\"%s\" : %d, ", current->__key, current->__value);
             }
         }
     }
@@ -90,6 +115,8 @@ struct HashMap *HashMap_new() {
     // Assign Internal Methods
     new->dump = &__HashMap_dump;
     new->put = &__HashMap_put;
+    new->get = &__HashMap_get;
+    new->hash = &__HashMap_hash;
     
     return new;
 }
@@ -103,6 +130,7 @@ int main() {
     my_hashmap->put(my_hashmap, "key3", 3);
     my_hashmap->put(my_hashmap, "key3", 4);
     my_hashmap->dump(my_hashmap);
+    printf("get key3: %d\n", my_hashmap->get(my_hashmap, "key3"));
 
     return 0;
 }
