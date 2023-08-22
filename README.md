@@ -10,3 +10,5 @@ Completing these coding exercises has helped to better understand OOP, Methods, 
 
 ### Machine learning
 - Inspired by Tsoding Daily on YouTube
+
+#
