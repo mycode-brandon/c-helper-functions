@@ -45,6 +45,7 @@ void __HashMap_put(struct HashMap *this, char *key, int value) {
         } else {
             new_node->__prev = this->__tails[bucket];
             new_node->__next = NULL;
+            this->__tails[bucket]->__next = new_node;
             this->__tails[bucket] = new_node;
         }
     }
@@ -54,10 +55,14 @@ void __HashMap_dump(struct HashMap *this) {
     printf("(BUCKETS=%d, [", MAX_BUCKETS);
     for (int i = 0; i < MAX_BUCKETS; ++i) {
         for (struct BucketNode *current = this->__heads[i]; current != NULL; current = current->__next) {
-            printf("\"%s\" :%d, ", current->__key, current->__value);
+            if (current->__next != NULL) {
+                printf("\"%s\" : %d, ", current->__key, current->__value);
+            } else {
+                printf("\"%s\" : %d", current->__key, current->__value);
+            }
         }
     }
-    printf("END])\n");
+    printf("])\n");
 }
 
 struct HashMap *HashMap_new() {
