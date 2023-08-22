@@ -17,6 +17,7 @@ struct BucketNode {
 struct HashMap {
     //Private Values
     int __buckets;
+    int __length;
     struct BucketNode *__heads[MAX_BUCKETS];
     struct BucketNode *__tails[MAX_BUCKETS];
     
@@ -27,6 +28,15 @@ struct HashMap {
 
 void __HashMap_put(struct HashMap *this, char *key, int value) {
     int key_exists = 0;
+    for (int i = 0; i < MAX_BUCKETS; ++i) {
+        for (struct BucketNode *current = this->__heads[i]; current != NULL; current = current->__next) {
+            if (strcmp(current->__key, key) == 0) {
+                //printf("current->__key: %s, key: %s\n", current->__key, key);
+                key_exists = 1;
+                current->__value = value;
+            }
+        }
+    }
 
     if (key_exists == 0) {
         int bucket = 1;
@@ -48,11 +58,12 @@ void __HashMap_put(struct HashMap *this, char *key, int value) {
             this->__tails[bucket]->__next = new_node;
             this->__tails[bucket] = new_node;
         }
+        this->__length += 1;
     }
 }
 
 void __HashMap_dump(struct HashMap *this) {
-    printf("(BUCKETS=%d, [", MAX_BUCKETS);
+    printf("(length=%d, [", this->__length);
     for (int i = 0; i < MAX_BUCKETS; ++i) {
         for (struct BucketNode *current = this->__heads[i]; current != NULL; current = current->__next) {
             if (current->__next != NULL) {
@@ -69,6 +80,7 @@ struct HashMap *HashMap_new() {
     // Initialize new hashmap memory and heads and tails bucketnodes for each bucket
     struct HashMap *new = (struct HashMap *) malloc(sizeof(*new));
     new->__buckets = MAX_BUCKETS;
+    new->__length = 0;
     for (int i = 0; i < MAX_BUCKETS; ++i) {
         new->__heads[i] = NULL;
         new->__tails[i] = NULL;
@@ -89,6 +101,7 @@ int main() {
     my_hashmap->put(my_hashmap, "key1", 1);
     my_hashmap->put(my_hashmap, "key2", 2);
     my_hashmap->put(my_hashmap, "key3", 3);
+    my_hashmap->put(my_hashmap, "key3", 4);
     my_hashmap->dump(my_hashmap);
 
     return 0;
